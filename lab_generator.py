@@ -1,10 +1,11 @@
+# This generates a random labyrinth using the recursive backtrack method.
 from random import shuffle, randrange
 import common
 
 width = 12
 height = 12
 visited_cell = [[0] * width + [1] for _ in range(height)] + [[1] * (width + 1)]
-# visited_cell is jsut a utily list including 0's and 1's, to track the already visited cells
+# visited_cell is just a utily list that includes 0's and 1's, to track the already visited cells
 vertical_row = [["100"] * width + ['1'] for _ in range(height)] + [[]]
 horizontal_row = [["111"] * width + ['1'] for _ in range(height + 1)]
 
@@ -35,7 +36,7 @@ def append_rows_to_maze(hor, ver):
     for (a, b) in maze_row:
         full_maze.append((''.join(a)))
         full_maze.append((''.join(b)))
-        full_maze.append((''.join(b)))
+        full_maze.append((''.join(b)))    # vertical row must be appended twice for wide corridors
     return full_maze
 
 
