@@ -46,19 +46,22 @@ def collectable_sweets():
 
 def draw(labyrinth):
     i = 0
+    gate = '\u2588\u2588'
+    h_and_g = '\u2659\u265f'
+    corridor = '  '
     while i < len(labyrinth):
         j = 0
         while j < len(labyrinth[i]):
             if labyrinth[i][j] == 1:
-                sys.stdout.write('\u2588\u2588')
+                sys.stdout.write(gate)
             elif labyrinth[i][j] == 0:
-                sys.stdout.write('  ')
+                sys.stdout.write(corridor)
             elif labyrinth[i][j] == 4:
-                sys.stdout.write('\u2659\u265f')
+                sys.stdout.write(h_and_g)
             elif labyrinth[i][j] == 2:
                 sys.stdout.write(collectable_sweets())
             elif labyrinth[i][j] == 3:
-                sys.stdout.write(colored('\u2588\u2588', "red"))
+                sys.stdout.write(colored(gate, "red"))
             j = j + 1
         i = i + 1
         print()
@@ -79,11 +82,13 @@ def find_player(labyrinth):
     return coordinates
 
 
-def collect_sweets():
+def count_remaining_sweets(labyrinth):
     sweets_to_coll = 4
     coll_sweets = 0
-    uncoll_sweets = 4
-    pass
+    for row in labyrinth:
+        coll_sweets += row.count(2)
+    uncoll_sweets = sweets_to_coll - coll_sweets
+    return uncoll_sweets
 
 
 def move_player(labyrinth):
@@ -93,29 +98,21 @@ def move_player(labyrinth):
     labyrinth[i][j] = 0
     if move == 'a':
         if labyrinth[i][j-1] == 2:
-            coll_sweets += 1
-            uncoll_sweets -= 1
             labyrinth[i][j-1] = 0
         if labyrinth[i][j-1] == 0:
             j = j - 1
     if move == 's':
         if labyrinth[i+1][j] == 2:
-            coll_sweets += 1
-            uncoll_sweets -= 1
             labyrinth[i+1][j] = 0
         if labyrinth[i+1][j] == 0:
             i = i + 1
     if move == 'd':
         if labyrinth[i][j+1] == 2:
-            coll_sweets += 1
-            uncoll_sweets -= 1
             labyrinth[i][j+1] = 0
         if labyrinth[i][j+1] == 0:
             j = j + 1
     if move == 'w':
         if labyrinth[i-1][j] == 2:
-            coll_sweets += 1
-            uncoll_sweets -= 1
             labyrinth[i-1][j] = 0
         if labyrinth[i-1][j] == 0:
             i = i - 1
@@ -138,52 +135,19 @@ def main():
     # common.game_intro()
     add_sweets_and_gates(lab_width, lab_height)
     labyrinth = common.import_lab_level("lab_to_play")
-    sweets_to_coll = 4
-    coll_sweets = 0
-    uncoll_sweets = 4
     labyrinth[1][3] = 4
+    sweets_to_collect = 4
     while not game_over(labyrinth):
         os.system('clear')
+        coll_sweets = count_remaining_sweets(labyrinth)
+        uncoll_sweets = sweets_to_collect - coll_sweets
         print("You already ate {} sweet(s). Good.".format(coll_sweets))
         print("You must eat {} more. Hurry-hurry!\n".format(uncoll_sweets))
-        if coll_sweets == sweets_to_coll:
+        if coll_sweets == sweets_to_collect:
             labyrinth[lab_height][lab_width - 2] = 0
             labyrinth[lab_height][lab_width - 1] = 0
         draw(labyrinth)
         labyrinth = move_player(labyrinth)
-        # labyrinth[i][j] = 0
-        # move = common.getch()
-        # if move == 'a':
-        #     if labyrinth[i][j-1] == 2:
-        #         coll_sweets += 1
-        #         uncoll_sweets -= 1
-        #         labyrinth[i][j-1] = 0
-        #     if labyrinth[i][j-1] == 0:
-        #         j = j - 1
-        # if move == 's':
-        #     if labyrinth[i+1][j] == 2:
-        #         coll_sweets += 1
-        #         uncoll_sweets -= 1
-        #         labyrinth[i+1][j] = 0
-        #     if labyrinth[i+1][j] == 0:
-        #         i = i + 1
-        # if move == 'd':
-        #     if labyrinth[i][j+1] == 2:
-        #         coll_sweets += 1
-        #         uncoll_sweets -= 1
-        #         labyrinth[i][j+1] = 0
-        #     if labyrinth[i][j+1] == 0:
-        #         j = j + 1
-        # if move == 'w':
-        #     if labyrinth[i-1][j] == 2:
-        #         coll_sweets += 1
-        #         uncoll_sweets -= 1
-        #         labyrinth[i-1][j] = 0
-        #     if labyrinth[i-1][j] == 0:
-        #         i = i - 1
-        # if move == "x":
-        #     exit()
-        # labyrinth[i][j] = 4
         os.system('clear')
     else:
         draw(labyrinth)
