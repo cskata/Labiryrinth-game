@@ -1,7 +1,5 @@
-from termcolor import colored
 import csv
 import os
-import random
 import sys
 import termios
 import time
