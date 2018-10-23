@@ -9,8 +9,8 @@ import tty
 import lab_generator
 import common
 
-LAB_WIDTH = lab_generator.width * 3
-LAB_HEIGHT = lab_generator.height * 3
+LAB_WIDTH = lab_generator.WIDTH * 3
+LAB_HEIGHT = lab_generator.HEIGHT * 3
 
 
 def collectable_sweets():

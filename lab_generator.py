@@ -2,12 +2,12 @@
 from random import shuffle, randrange
 import common
 
-width = 12
-height = 12
-visited_cell = [[0] * width + [1] for _ in range(height)] + [[1] * (width + 1)]
+WIDTH = 12
+HEIGHT = 12
+visited_cell = [[0] * WIDTH + [1] for _ in range(HEIGHT)] + [[1] * (WIDTH + 1)]
 # visited_cell is just a utily list that includes 0's and 1's, to track the already visited cells
-vertical_row = [["100"] * width + ['1'] for _ in range(height)] + [[]]
-horizontal_row = [["111"] * width + ['1'] for _ in range(height + 1)]
+horizontal_row = [["111"] * WIDTH + ['1'] for _ in range(HEIGHT + 1)]
+vertical_row = [["100"] * WIDTH + ['1'] for _ in range(HEIGHT)] + [[]]
 
 
 def walk(x, y):
@@ -41,7 +41,7 @@ def append_rows_to_maze(hor, ver):
 
 
 def create_random_maze():
-    walk(randrange(width), randrange(height))
+    walk(randrange(WIDTH), randrange(HEIGHT))
     full_maze = append_rows_to_maze(horizontal_row, vertical_row)
     full_maze.pop()
     return full_maze
@@ -50,7 +50,3 @@ def create_random_maze():
 def make_new_lab():
     labyrinth = create_random_maze()
     common.export_random_lab(labyrinth)
-
-
-maze = create_random_maze()
-print(maze)
