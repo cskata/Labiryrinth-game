@@ -1,5 +1,4 @@
 from termcolor import colored
-import csv
 import os
 import random
 import sys
@@ -23,16 +22,18 @@ def collectable_sweets():
     return lollypop
 
 
+# item: numbers in grid, char to print, other data if needed
 ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, collectable_sweets()],
+    'SPAWNED_ITEM': [2, collectable_sweets(), 1],
     'GATE': [3, '\u2588\u2588', 'red'],
     'PLAYER': [4, '\u2659\u265f']
     }
 
 
-def add_sweets_and_gates(lab_width, lab_height, sweets=4, generated_keys=0):
+def add_sweets_and_gates(lab_width, lab_height, generated_keys=0):
+    sweets = ITEMS['SPAWNED_ITEM'][2]
     lab_generator.make_new_lab()
     labyrinth = common.import_lab_level("new_lab")
 
@@ -51,15 +52,6 @@ def add_sweets_and_gates(lab_width, lab_height, sweets=4, generated_keys=0):
             generated_keys += 0
 
     common.export_random_lab(labyrinth, "lab_to_play.csv")
-
-
-def collectable_sweets():
-    BOLD = "\033[1m"
-    END = "\033[0m"
-    lolly = colored((f"{BOLD}{'@'}{END}"), "blue")
-    pop = colored((f"{BOLD}{'-'}{END}"), "yellow")
-    lollypop = lolly + pop
-    return lollypop
 
 
 def draw(labyrinth):
@@ -91,14 +83,14 @@ def find_player(labyrinth):
     coordinates = []
     for id_i, row in enumerate(labyrinth):
         for id_j, item in enumerate(row):
-            if item == 4:
+            if item == ITEMS['PLAYER'][0]:
                 coordinates.append(id_i)
                 coordinates.append(id_j)
     return coordinates
 
 
 def count_remaining_sweets(labyrinth):
-    sweets_to_coll = 4
+    sweets_to_coll = ITEMS['SPAWNED_ITEM'][2]
     coll_sweets = 0
     for row in labyrinth:
         coll_sweets += row.count(2)
@@ -110,48 +102,48 @@ def move_player(labyrinth):
     move = common.getch()
     i = find_player(labyrinth)[0]
     j = find_player(labyrinth)[1]
-    labyrinth[i][j] = 0
+    labyrinth[i][j] = ITEMS['CORRIDOR'][0]
     if move == 'a':
-        if labyrinth[i][j-1] == 2:
-            labyrinth[i][j-1] = 0
-        if labyrinth[i][j-1] == 0:
+        if labyrinth[i][j-1] == ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[i][j-1] = ITEMS['CORRIDOR'][0]
+        if labyrinth[i][j-1] == ITEMS['CORRIDOR'][0]:
             j = j - 1
     if move == 's':
-        if labyrinth[i+1][j] == 2:
-            labyrinth[i+1][j] = 0
-        if labyrinth[i+1][j] == 0:
+        if labyrinth[i+1][j] == ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[i+1][j] = ITEMS['CORRIDOR'][0]
+        if labyrinth[i+1][j] == ITEMS['CORRIDOR'][0]:
             i = i + 1
     if move == 'd':
-        if labyrinth[i][j+1] == 2:
-            labyrinth[i][j+1] = 0
-        if labyrinth[i][j+1] == 0:
+        if labyrinth[i][j+1] == ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[i][j+1] = ITEMS['CORRIDOR'][0]
+        if labyrinth[i][j+1] == ITEMS['CORRIDOR'][0]:
             j = j + 1
     if move == 'w':
-        if labyrinth[i-1][j] == 2:
-            labyrinth[i-1][j] = 0
-        if labyrinth[i-1][j] == 0:
+        if labyrinth[i-1][j] == ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[i-1][j] = ITEMS['CORRIDOR'][0]
+        if labyrinth[i-1][j] == ITEMS['CORRIDOR'][0]:
             i = i - 1
     if move == "x":
         exit()
-    labyrinth[i][j] = 4
+    labyrinth[i][j] = ITEMS['PLAYER'][0]
     return labyrinth
 
 
 def game_over(labyrinth):
     game_over = False
-    if labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] == 4:
+    if labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] == ITEMS['PLAYER'][0]:
         game_over = True
-    elif labyrinth[LAB_HEIGHT][LAB_WIDTH - 2] == 4:
+    elif labyrinth[LAB_HEIGHT][LAB_WIDTH - 2] == ITEMS['PLAYER'][0]:
         game_over = True
     return game_over
 
 
 def main():
-    # common.game_intro()
+    common.game_intro()
     add_sweets_and_gates(LAB_WIDTH, LAB_HEIGHT)
     labyrinth = common.import_lab_level("lab_to_play")
-    labyrinth[1][3] = 4
-    sweets_to_collect = 4
+    labyrinth[1][3] = ITEMS['PLAYER'][0]
+    sweets_to_collect = ITEMS['SPAWNED_ITEM'][2]
     while not game_over(labyrinth):
         os.system('clear')
         coll_sweets = count_remaining_sweets(labyrinth)
@@ -164,8 +156,8 @@ def main():
             print("You ate all the sweets. The gate is now open, you can escape!\n")
         draw(labyrinth)
         labyrinth = move_player(labyrinth)
-        os.system('clear')
     else:
+        os.system('clear')
         draw(labyrinth)
         common.cellar_outro()
         # új szinthez ide kéne meghívni esetleg a következő szint mainjét?
