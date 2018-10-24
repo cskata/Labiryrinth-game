@@ -153,7 +153,8 @@ def print_how_many_sweets_left(colld_sw, sw_to_coll):
 
 
 def main():
-    # common.game_intro()
+    common.game_intro()
+    common.cellar_intro()
     add_sweets_and_gates(LAB_WIDTH, LAB_HEIGHT)
     labyrinth = common.import_lab_level("cellar")
     labyrinth[1][3] = CELLAR_ITEMS['PLAYER'][0]

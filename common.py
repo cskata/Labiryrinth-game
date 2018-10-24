@@ -6,6 +6,7 @@ import time
 import tty
 
 import lab_generator
+import main_title
 
 
 def getch():
@@ -44,13 +45,11 @@ def export_random_lab(grid, filename="new_lab"):
 
 def game_intro():
     os.system('clear')
-    print(r"""
-  _    _                      _                   _    _____          _       _
- | |  | |                    | |                 | |  / ____|        | |     | |
- | |__| | __ _ _ __  ___  ___| |   __ _ _ __   __| | | |  __ _ __ ___| |_ ___| |
- |  __  |/ _` | '_ \/ __|/ _ \ |  / _` | '_ \ / _` | | | |_ | '__/ _ \ __/ _ \ |
- | |  | | (_| | | | \__ \  __/ | | (_| | | | | (_| | | |__| | | |  __/ ||  __/ |
- |_|  |_|\__,_|_| |_|___/\___|_|  \__,_|_| |_|\__,_|  \_____|_|  \___|\__\___|_|""")
+    main_title.print_centered_main_title()
+
+
+def cellar_intro():
+    os.system('clear')
     time.sleep(0.5)
     print_slow("\nHansel and Gretel got lost in the woods and the evil witch captured them.")
     print_slow("\nThey are locked in the witch's cellar. Help them to escape.\n")
@@ -59,14 +58,10 @@ def game_intro():
     time.sleep(1.2)
     print("You can move by pressing WASD.")
     time.sleep(1.2)
-    print("When you are ready, press any button to start the game.")
+    print("When you are ready, press any button to begin.")
     start_game = False
     if getch():
         start_game = True
-
-
-def cellar_intro():
-    pass
 
 
 def cellar_outro():
