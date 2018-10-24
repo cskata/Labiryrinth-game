@@ -17,7 +17,7 @@ LAB_HEIGHT = lab_generator.HEIGHT * 3
 CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, '\U0001F36C', 2],
+    'SPAWNED_ITEM': [2, '\U0001F36C', 1],
     'GATE': [3, '\u2588\u2588', 'red'],
     'PLAYER': [4, '\U0001F46B']
     }
@@ -130,12 +130,12 @@ def escaped_from_cellar(labyrinth, game_over=False):
 
 def print_how_many_sweets_left(labyrinth, colld_sw, sw_to_coll):
     if colld_sw != sw_to_coll:
-        print(f"Eat all the {sw_to_coll} sweets and you can escape through the gate below!\n")
+        print(f"They must eat all the {sw_to_coll} sweets to escape through the gate below!\n")
     else:
-        print("You ate all the sweets. The gate is now open, you can escape!\n")
+        print("Hansel ate all the sweets. The gate is now open, they can escape!\n")
         open_gates(labyrinth)
-    print("You already ate {} sweet(s). Good.".format(colld_sw))
-    print("You must eat {} more. Hurry-hurry!\n".format(sw_to_coll - colld_sw))
+    print("Hansel already ate {} sweet(s). Good.".format(colld_sw))
+    print("He must eat {} more. Hurry-hurry!\n".format(sw_to_coll - colld_sw))
 
 
 def init_new_cellar():
