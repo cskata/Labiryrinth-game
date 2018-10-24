@@ -101,40 +101,36 @@ def count_uncollected_sweets(labyrinth, coll_sweets=0):
 
 
 def move_player(labyrinth):
-    move = common.getch()
+    new_move = common.getch()
     x = find_player(labyrinth)[0]
     y = find_player(labyrinth)[1]
     labyrinth[x][y] = CELLAR_ITEMS['CORRIDOR'][0]
-    if move == 'a':
-        if labyrinth[x][y-1] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[x][y-1] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[x][y-1] == CELLAR_ITEMS['CORRIDOR'][0]:
-            y = y - 1
-    if move == 's':
-        if labyrinth[x+1][y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[x+1][y] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[x+1][y] == CELLAR_ITEMS['CORRIDOR'][0]:
-            x = x + 1
-    if move == 'd':
-        if labyrinth[x][y+1] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[x][y+1] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[x][y+1] == CELLAR_ITEMS['CORRIDOR'][0]:
-            y = y + 1
-    if move == 'w':
-        if labyrinth[x-1][y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[x-1][y] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[x-1][y] == CELLAR_ITEMS['CORRIDOR'][0]:
-            x = x - 1
-    if move == "x":
+    move_coords = {
+        'w': [x - 1, y, 'ver'],
+        'a': [x, y - 1, 'hor'],
+        's': [x + 1, y, 'ver'],
+        'd': [x, y + 1, 'hor']}
+
+    # find move's index with dictionary
+    if new_move in move_coords.keys():
+        cx = move_coords[new_move][0]
+        cy = move_coords[new_move][1]
+        if labyrinth[cx][cy] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[cx][cy] = CELLAR_ITEMS['CORRIDOR'][0]
+        if labyrinth[cx][cy] == CELLAR_ITEMS['CORRIDOR'][0]:
+            if move_coords[new_move][2] == 'hor':
+                y = cy
+            elif move_coords[new_move][2] == 'ver':
+                x = cx
+    if new_move == "x":
         exit()
     labyrinth[x][y] = CELLAR_ITEMS['PLAYER'][0]
     return labyrinth
 
 
-def escaped_from_cellar(labyrinth):
-    game_over = False
-    gate1 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 1]
-    gate2 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 2]
+def escaped_from_cellar(labyrinth, game_over=False):
+    gate1 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 2]
+    gate2 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 1]
     player = CELLAR_ITEMS['PLAYER'][0]
     if gate1 == player or gate2 == player:
         game_over = True
