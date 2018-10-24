@@ -22,13 +22,13 @@ def collectable_sweets():
     return lollypop
 
 
-# item: numbers in grid, char to print, other data if needed
+# item: numbers in grid, char to print, other data if needed w: \u265f
 CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
     'SPAWNED_ITEM': [2, collectable_sweets(), 2],
     'GATE': [3, '\u2588\u2588', 'red'],
-    'PLAYER': [4, '\u2659\u265f']
+    'PLAYER': [4, '\u2659 ']
     }
 
 
@@ -44,51 +44,51 @@ def open_gates(labyrinth):
     labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] = CELLAR_ITEMS['CORRIDOR'][0]
 
 
-def create_cellar_with_sweets(lab_width, lab_height, generated_keys=0):
+def create_cellar_with_sweets(spawned_sweets=0):
     lab_generator.make_new_lab()
     labyrinth = common.import_lab_level("new_lab")
-    spawned_sweets = CELLAR_ITEMS['SPAWNED_ITEM'][2]
-    while generated_keys != spawned_sweets:
-        key_a = random.randint(0, lab_height)
-        key_b = random.randint(0, lab_width)
-        if labyrinth[key_a][key_b] == 0:
-            labyrinth[key_a][key_b] = 2
-            generated_keys += 1
+    sweets_to_spawn = CELLAR_ITEMS['SPAWNED_ITEM'][2]
+    while spawned_sweets != sweets_to_spawn:
+        x = random.randint(0, LAB_WIDTH)
+        y = random.randint(0, LAB_HEIGHT)
+        if labyrinth[x][y] == 0:
+            labyrinth[x][y] = 2
+            spawned_sweets += 1
         else:
-            generated_keys += 0
-
+            spawned_sweets += 0
+    # exports the genertaed cellar with sweets to a new file so it wont be overwritten every time
     common.export_random_lab(labyrinth, "cellar")
 
 
 def draw(labyrinth, collected_sweets, sweets_to_collect):
     os.system('clear')
     print_how_many_sweets_left(labyrinth, collected_sweets, sweets_to_collect)
-    i = 0
-    while i < len(labyrinth):
-        j = 0
-        while j < len(labyrinth[i]):
-            if labyrinth[i][j] == CELLAR_ITEMS['WALL'][0]:
+    x = 0
+    while x < len(labyrinth):
+        y = 0
+        while y < len(labyrinth[x]):
+            if labyrinth[x][y] == CELLAR_ITEMS['WALL'][0]:
                 sys.stdout.write(CELLAR_ITEMS['WALL'][1])
-            elif labyrinth[i][j] == CELLAR_ITEMS['CORRIDOR'][0]:
+            elif labyrinth[x][y] == CELLAR_ITEMS['CORRIDOR'][0]:
                 sys.stdout.write(CELLAR_ITEMS['CORRIDOR'][1])
-            elif labyrinth[i][j] == CELLAR_ITEMS['PLAYER'][0]:
+            elif labyrinth[x][y] == CELLAR_ITEMS['PLAYER'][0]:
                 sys.stdout.write(CELLAR_ITEMS['PLAYER'][1])
-            elif labyrinth[i][j] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            elif labyrinth[x][y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
                 sys.stdout.write(CELLAR_ITEMS['SPAWNED_ITEM'][1])
-            elif labyrinth[i][j] == CELLAR_ITEMS['GATE'][0]:
+            elif labyrinth[x][y] == CELLAR_ITEMS['GATE'][0]:
                 sys.stdout.write(colored(CELLAR_ITEMS['GATE'][1], CELLAR_ITEMS['GATE'][2]))
-            j = j + 1
-        i = i + 1
+            y = y + 1
+        x = x + 1
         print()
 
 
 def find_player(labyrinth):
     coordinates = []
-    for id_i, row in enumerate(labyrinth):
-        for id_j, item in enumerate(row):
+    for x_coord, row in enumerate(labyrinth):
+        for y_coord, item in enumerate(row):
             if item == CELLAR_ITEMS['PLAYER'][0]:
-                coordinates.append(id_i)
-                coordinates.append(id_j)
+                coordinates.append(x_coord)
+                coordinates.append(y_coord)
     return coordinates
 
 
@@ -102,40 +102,41 @@ def count_uncollected_sweets(labyrinth, coll_sweets=0):
 
 def move_player(labyrinth):
     move = common.getch()
-    i = find_player(labyrinth)[0]
-    j = find_player(labyrinth)[1]
-    labyrinth[i][j] = CELLAR_ITEMS['CORRIDOR'][0]
+    x = find_player(labyrinth)[0]
+    y = find_player(labyrinth)[1]
+    labyrinth[x][y] = CELLAR_ITEMS['CORRIDOR'][0]
     if move == 'a':
-        if labyrinth[i][j-1] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[i][j-1] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[i][j-1] == CELLAR_ITEMS['CORRIDOR'][0]:
-            j = j - 1
+        if labyrinth[x][y-1] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[x][y-1] = CELLAR_ITEMS['CORRIDOR'][0]
+        if labyrinth[x][y-1] == CELLAR_ITEMS['CORRIDOR'][0]:
+            y = y - 1
     if move == 's':
-        if labyrinth[i+1][j] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[i+1][j] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[i+1][j] == CELLAR_ITEMS['CORRIDOR'][0]:
-            i = i + 1
+        if labyrinth[x+1][y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[x+1][y] = CELLAR_ITEMS['CORRIDOR'][0]
+        if labyrinth[x+1][y] == CELLAR_ITEMS['CORRIDOR'][0]:
+            x = x + 1
     if move == 'd':
-        if labyrinth[i][j+1] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[i][j+1] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[i][j+1] == CELLAR_ITEMS['CORRIDOR'][0]:
-            j = j + 1
+        if labyrinth[x][y+1] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[x][y+1] = CELLAR_ITEMS['CORRIDOR'][0]
+        if labyrinth[x][y+1] == CELLAR_ITEMS['CORRIDOR'][0]:
+            y = y + 1
     if move == 'w':
-        if labyrinth[i-1][j] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[i-1][j] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[i-1][j] == CELLAR_ITEMS['CORRIDOR'][0]:
-            i = i - 1
+        if labyrinth[x-1][y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[x-1][y] = CELLAR_ITEMS['CORRIDOR'][0]
+        if labyrinth[x-1][y] == CELLAR_ITEMS['CORRIDOR'][0]:
+            x = x - 1
     if move == "x":
         exit()
-    labyrinth[i][j] = CELLAR_ITEMS['PLAYER'][0]
+    labyrinth[x][y] = CELLAR_ITEMS['PLAYER'][0]
     return labyrinth
 
 
-def are_they_escaped_from_cellar(labyrinth):
+def escaped_from_cellar(labyrinth):
     game_over = False
-    if labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] == CELLAR_ITEMS['PLAYER'][0]:
-        game_over = True
-    elif labyrinth[LAB_HEIGHT][LAB_WIDTH - 2] == CELLAR_ITEMS['PLAYER'][0]:
+    gate1 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 1]
+    gate2 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 2]
+    player = CELLAR_ITEMS['PLAYER'][0]
+    if gate1 == player or gate2 == player:
         game_over = True
     return game_over
 
@@ -150,22 +151,26 @@ def print_how_many_sweets_left(labyrinth, colld_sw, sw_to_coll):
     print("You must eat {} more. Hurry-hurry!\n".format(sw_to_coll - colld_sw))
 
 
-def main():
-    common.game_intro()
-    common.cellar_intro()
-    create_cellar_with_sweets(LAB_WIDTH, LAB_HEIGHT)
+def init_new_cellar():
+    create_cellar_with_sweets()
     labyrinth = common.import_lab_level("cellar")
     place_and_close_gates(labyrinth)
     labyrinth[1][3] = CELLAR_ITEMS['PLAYER'][0]
+    return labyrinth
+
+
+def main():
+    # common.game_intro()
+    # common.cellar_intro()
+    labyrinth = init_new_cellar()
     sweets_to_collect = CELLAR_ITEMS['SPAWNED_ITEM'][2]
-    while not are_they_escaped_from_cellar(labyrinth):
+    while not escaped_from_cellar(labyrinth):
         collected_sweets = count_uncollected_sweets(labyrinth)
         draw(labyrinth, collected_sweets, sweets_to_collect)
         labyrinth = move_player(labyrinth)
-    else:
-        draw(labyrinth, collected_sweets, sweets_to_collect)
-        common.cellar_outro()
-        # új szinthez ide kéne meghívni esetleg a következő szint mainjét?
+    draw(labyrinth, collected_sweets, sweets_to_collect)
+    # common.cellar_outro()
+    # új szinthez ide kéne meghívni esetleg a következő szint mainjét?
 
 
 if __name__ == '__main__':
