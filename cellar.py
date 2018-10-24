@@ -18,8 +18,8 @@ CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
     'SPAWNED_ITEM': [2, '\U0001F36C', 1],
-    'EXIT': [3, '\u2580\u2580', 'red'],
-    'ENTRY': [4, '\u2584\u2584', 'red'],
+    'EXIT': [3, '\u2584\u2584', 'red'],
+    'ENTRY': [4, '\u2580\u2580', 'red'],
     'PLAYER': [5, '\U0001F46B']
     }
 
@@ -106,15 +106,15 @@ def move_player(labyrinth):
 
     # find move's index with dictionary
     if new_move in move_coords.keys():
-        cx = move_coords[new_move][0]
-        cy = move_coords[new_move][1]
-        if labyrinth[cx][cy] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[cx][cy] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[cx][cy] == CELLAR_ITEMS['CORRIDOR'][0]:
+        move_x = move_coords[new_move][0]
+        move_y = move_coords[new_move][1]
+        if labyrinth[move_x][move_y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
+            labyrinth[move_x][move_y] = CELLAR_ITEMS['CORRIDOR'][0]
+        if labyrinth[move_x][move_y] == CELLAR_ITEMS['CORRIDOR'][0]:
             if move_coords[new_move][2] == 'hor':
-                y = cy
+                y = move_y
             elif move_coords[new_move][2] == 'ver':
-                x = cx
+                x = move_x
     if new_move == "x":
         exit()
     labyrinth[x][y] = CELLAR_ITEMS['PLAYER'][0]
