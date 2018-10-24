@@ -59,6 +59,10 @@ def create_cellar_with_sweets(spawned_sweets=0):
     # exports the generated cellar with the random sweets to a new file
     # the labyrinth's matrix it wont be overwritten every time
     common.export_random_lab(labyrinth, "cellar")
+    # then imports it back and returns the labyrinth
+    # since the function is called only once, the function can have a return value
+    labyrinth = common.import_lab_level("cellar")
+    return labyrinth
 
 
 def draw(labyrinth, collected_sweets, sweets_to_collect):
@@ -66,6 +70,8 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
     print_how_many_sweets_left(labyrinth, collected_sweets, sweets_to_collect)
     for x, row in enumerate(labyrinth):
         for y, cell in enumerate(row):
+            # finding the the current element's (cell) key in CELLAR_ITEMS dict.
+            # the key can be used as a variable so there is no need for many ifs
             for k in CELLAR_ITEMS.keys():
                 if CELLAR_ITEMS[k][0] == labyrinth[x][y]:
                     key = k
@@ -142,8 +148,7 @@ def print_how_many_sweets_left(labyrinth, colld_sw, sw_to_coll):
 
 
 def init_new_cellar():
-    create_cellar_with_sweets()
-    labyrinth = common.import_lab_level("cellar")
+    labyrinth = create_cellar_with_sweets()
     place_and_close_gates(labyrinth)
     labyrinth[1][3] = CELLAR_ITEMS['PLAYER'][0]
     return labyrinth
