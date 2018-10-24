@@ -35,8 +35,8 @@ def import_lab_level(filename="labyrinth_orig"):
         return new_lab
 
 
-def export_random_lab(grid, filename="new_lab.csv"):
-    with open(filename, 'w+') as f:
+def export_random_lab(grid, filename="new_lab"):
+    with open("{}.csv".format(filename), 'w+') as f:
         writer = csv.writer(f)
         for row in grid:
             writer.writerow(row)
@@ -51,12 +51,13 @@ def game_intro():
  |  __  |/ _` | '_ \/ __|/ _ \ |  / _` | '_ \ / _` | | | |_ | '__/ _ \ __/ _ \ |
  | |  | | (_| | | | \__ \  __/ | | (_| | | | | (_| | | |__| | | |  __/ ||  __/ |
  |_|  |_|\__,_|_| |_|___/\___|_|  \__,_|_| |_|\__,_|  \_____|_|  \___|\__\___|_|""")
-    # time.sleep(0.5)
-    # print_slow("\nHansel and Gretel got lost in the evil witch's cellar. Help them to escape.\n")
-    # time.sleep(0.7)
-    # print("You have to eat 4 sweets to escape.")
-    # time.sleep(1.2)
-    # print("You can move with WASD.")
+    time.sleep(0.5)
+    print_slow("\nHansel and Gretel got lost in the woods and the evil witch captured them.")
+    print_slow("\nThey are locked in the witch's cellar. Help them to escape.\n")
+    time.sleep(0.7)
+    print("They have to eat 4 sweets to open the gate and escape.")
+    time.sleep(1.2)
+    print("You can move by pressing WASD.")
     time.sleep(1.2)
     print("When you are ready, press any button to start the game.")
     start_game = False
@@ -64,8 +65,16 @@ def game_intro():
         start_game = True
 
 
+def cellar_intro():
+    pass
+
+
 def cellar_outro():
     print_slow("\nHansel and Gretel has gotten fat! They walked right into the witch's oven.")
     time.sleep(1)
     print_slow(" Congratulations! You killed them!")
     print("\n")
+
+
+def what_the_witch_say_in_cellar(sweets_to_collect):
+    pass
