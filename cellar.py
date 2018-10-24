@@ -13,22 +13,13 @@ LAB_WIDTH = lab_generator.WIDTH * 3
 LAB_HEIGHT = lab_generator.HEIGHT * 3
 
 
-def collectable_sweets():
-    BOLD = "\033[1m"
-    END = "\033[0m"
-    lolly = colored((f"{BOLD}{'@'}{END}"), "blue")
-    pop = colored((f"{BOLD}{'-'}{END}"), "yellow")
-    lollypop = lolly + pop
-    return lollypop
-
-
-# item: numbers in grid, char to print, other data if needed w: \u265f
+# item: numbers in grid, char to print, other data if needed
 CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, collectable_sweets(), 2],
+    'SPAWNED_ITEM': [2, '\U0001F36C', 2],
     'GATE': [3, '\u2588\u2588', 'red'],
-    'PLAYER': [4, '\u2659 ']
+    'PLAYER': [4, '\U0001F46B']
     }
 
 
