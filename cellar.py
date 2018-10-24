@@ -45,7 +45,7 @@ def open_gates(labyrinth):
 
 
 def create_cellar_with_sweets(spawned_sweets=0):
-    lab_generator.make_new_lab()
+    lab_generator.main()
     labyrinth = common.import_lab_level("new_lab")
     sweets_to_spawn = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     while spawned_sweets != sweets_to_spawn:
@@ -56,29 +56,23 @@ def create_cellar_with_sweets(spawned_sweets=0):
             spawned_sweets += 1
         else:
             spawned_sweets += 0
-    # exports the genertaed cellar with sweets to a new file so it wont be overwritten every time
+    # exports the generated cellar with the random sweets to a new file
+    # the labyrinth's matrix it wont be overwritten every time
     common.export_random_lab(labyrinth, "cellar")
 
 
 def draw(labyrinth, collected_sweets, sweets_to_collect):
     os.system('clear')
     print_how_many_sweets_left(labyrinth, collected_sweets, sweets_to_collect)
-    x = 0
-    while x < len(labyrinth):
-        y = 0
-        while y < len(labyrinth[x]):
-            if labyrinth[x][y] == CELLAR_ITEMS['WALL'][0]:
-                sys.stdout.write(CELLAR_ITEMS['WALL'][1])
-            elif labyrinth[x][y] == CELLAR_ITEMS['CORRIDOR'][0]:
-                sys.stdout.write(CELLAR_ITEMS['CORRIDOR'][1])
-            elif labyrinth[x][y] == CELLAR_ITEMS['PLAYER'][0]:
-                sys.stdout.write(CELLAR_ITEMS['PLAYER'][1])
-            elif labyrinth[x][y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-                sys.stdout.write(CELLAR_ITEMS['SPAWNED_ITEM'][1])
-            elif labyrinth[x][y] == CELLAR_ITEMS['GATE'][0]:
-                sys.stdout.write(colored(CELLAR_ITEMS['GATE'][1], CELLAR_ITEMS['GATE'][2]))
-            y = y + 1
-        x = x + 1
+    for x, row in enumerate(labyrinth):
+        for y, cell in enumerate(row):
+            for k in CELLAR_ITEMS.keys():
+                if CELLAR_ITEMS[k][0] == labyrinth[x][y]:
+                    key = k
+            if labyrinth[x][y] == CELLAR_ITEMS['GATE'][0]:
+                sys.stdout.write(colored(CELLAR_ITEMS[key][1], CELLAR_ITEMS[key][2]))
+            elif labyrinth[x][y] == CELLAR_ITEMS[key][0]:
+                sys.stdout.write(CELLAR_ITEMS[key][1])
         print()
 
 
