@@ -55,4 +55,9 @@ def make_new_lab():
     common.export_random_lab(labyrinth)
 
 
-make_new_lab()
+def main():
+    make_new_lab()
+
+
+if __name__ == '__main__':
+    main()
