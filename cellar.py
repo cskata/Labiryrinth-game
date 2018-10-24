@@ -18,16 +18,17 @@ CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
     'SPAWNED_ITEM': [2, '\U0001F36C', 1],
-    'GATE': [3, '\u2588\u2588', 'red'],
-    'PLAYER': [4, '\U0001F46B']
+    'EXIT': [3, '\u2580\u2580', 'red'],
+    'ENTRY': [4, '\u2584\u2584', 'red'],
+    'PLAYER': [5, '\U0001F46B']
     }
 
 
 def place_and_close_gates(labyrinth):
-    labyrinth[0][2] = CELLAR_ITEMS['GATE'][0]
-    labyrinth[0][3] = CELLAR_ITEMS['GATE'][0]
-    labyrinth[LAB_HEIGHT][LAB_WIDTH - 2] = CELLAR_ITEMS['GATE'][0]
-    labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] = CELLAR_ITEMS['GATE'][0]
+    labyrinth[0][2] = CELLAR_ITEMS['ENTRY'][0]
+    labyrinth[0][3] = CELLAR_ITEMS['ENTRY'][0]
+    labyrinth[LAB_HEIGHT][LAB_WIDTH - 2] = CELLAR_ITEMS['EXIT'][0]
+    labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] = CELLAR_ITEMS['EXIT'][0]
 
 
 def open_gates(labyrinth):
@@ -66,8 +67,9 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
             for k in CELLAR_ITEMS.keys():
                 if CELLAR_ITEMS[k][0] == labyrinth[x][y]:
                     key = k
-            if labyrinth[x][y] == CELLAR_ITEMS['GATE'][0]:
-                sys.stdout.write(colored(CELLAR_ITEMS[key][1], CELLAR_ITEMS[key][2]))
+            if key == 'ENTRY' or key == 'EXIT':
+                if labyrinth[x][y] == CELLAR_ITEMS[key][0]:
+                    sys.stdout.write(colored(CELLAR_ITEMS[key][1], CELLAR_ITEMS[key][2]))
             elif labyrinth[x][y] == CELLAR_ITEMS[key][0]:
                 sys.stdout.write(CELLAR_ITEMS[key][1])
         print()
