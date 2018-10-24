@@ -2,8 +2,8 @@
 from random import shuffle, randrange
 import common
 
-WIDTH = 3
-HEIGHT = 3
+WIDTH = 4
+HEIGHT = WIDTH
 visited_cells = [[0] * WIDTH + [1] for _ in range(HEIGHT)] + [[1] * (WIDTH + 1)]
 # visited_cells is just a utily list that includes 0's and 1's, to track the already visited cells
 horizontal_walls = [["111"] * WIDTH + ['1'] for _ in range(HEIGHT + 1)]
