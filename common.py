@@ -24,7 +24,7 @@ def print_slow(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(0.05)
+        time.sleep(0.06)
 
 
 def import_lab_level(filename="labyrinth_orig"):
@@ -65,9 +65,17 @@ def cellar_intro():
 
 
 def cellar_outro():
-    print_slow("\nHansel and Gretel has gotten fat! They walked right into the witch's oven.")
     time.sleep(1)
-    print_slow(" Congratulations! You killed them!")
+    print_slow("\nHansel has gotten fat. He fell into the witch's oven. ")
+    time.sleep(1)
+    print_slow("Congratulations. You killed him!")
+    time.sleep(2)
+    print("\n")
+    print_slow("But Gretel survived...")
+    print_slow(" And she wants to avenge Hansel. You must help her!")
+    time.sleep(1)
+    print("\n")
+    print_slow("(And try not to kill her too... \U0001F620)")
     print("\n")
 
 
