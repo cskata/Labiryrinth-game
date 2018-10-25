@@ -20,13 +20,6 @@ def getch():
     return ch
 
 
-def print_slow(str):
-    for letter in str:
-        sys.stdout.write(letter)
-        sys.stdout.flush()
-        time.sleep(0.06)
-
-
 def import_lab_level(filename="labyrinth_orig"):
     with open("{}.csv".format(filename), "r") as f:
         new_lab = list(csv.reader(f))
@@ -90,6 +83,8 @@ def move_player(labyrinth, biom):
                 y = move_y
             elif move_coords[new_move][2] == 'ver':
                 x = move_x
+        if labyrinth[move_x][move_y] == 6:
+            biom['MAGIC_SWORD'][3] = True
     if new_move == "x":
         exit()
     labyrinth[x][y] = biom['PLAYER'][0]
