@@ -11,8 +11,9 @@ import common
 import introoutro
 import forest
 
-LAB_WIDTH = lab_generator.WIDTH * 3
-LAB_HEIGHT = lab_generator.HEIGHT * 3
+# LAB_WIDTH must be the WIDTH in lab_generator * 3
+LAB_WIDTH = 24
+LAB_HEIGHT = LAB_WIDTH
 
 
 def collectable_sweets():
