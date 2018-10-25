@@ -88,13 +88,13 @@ def count_uncollected_sweets(labyrinth, coll_sweets=0):
     return uncoll_sweets
 
 
-def escaped_from_cellar(labyrinth, game_over=False):
+def escaped_from_cellar(labyrinth, level_completed=False):
     gate1 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 2]
     gate2 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 1]
     player = CELLAR_ITEMS['PLAYER'][0]
     if gate1 == player or gate2 == player:
-        game_over = True
-    return game_over
+        level_completed = True
+    return level_completed
 
 
 def print_how_many_sweets_left(labyrinth, colld_sw, sw_to_coll):
