@@ -26,7 +26,8 @@ FOREST_ITEMS = {
     'SPAWNED_ITEM': [2, custom_tree(), 'green', 8],
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
-    'PLAYER': [5, '\u265f', 'red']
+    'PLAYER': [5, '\u265f', 'red'],
+    'MAGIC_SWORD': [6, custom_tree(), 'green']
     }
 
 
@@ -50,7 +51,7 @@ def spawn_trees(spawned_trees=0):
     while spawned_trees != trees_to_spawn:
         x = random.randint(2, (FOREST_WIDTH - 1))
         y = random.randint(2, (FOREST_HEIGTH * 2))
-        spawned_sweets += common.add_items_to_biom(x, y, forest, FOREST_ITEMS)
+        spawned_trees += common.add_items_to_biom(x, y, forest, FOREST_ITEMS)
     common.export_random_lab(forest, "forest")
     forest = common.import_lab_level("forest")
     return forest
@@ -80,7 +81,16 @@ def find_tree_coordinates(forest):
 
 def place_magic_sword(forest):
     tree_coordinates = find_tree_coordinates(forest)
-    shuffle(tree_coordinates)
+    random.shuffle(tree_coordinates)
+    sword_coords = tree_coordinates[0]
+    if sword_coords == [2, 2]:
+        sword_coords = tree_coordinates[1]
+    sx = sword_coords[0]
+    sy = sword_coords[1]
+    forest[sx][sy] = FOREST_ITEMS['MAGIC_SWORD'][0]
+
+
+def look_for_magic_sword():
     pass
 
 
@@ -91,13 +101,6 @@ def place_and_close_gates(forest):
     forest[(FOREST_HEIGTH) + 1][5] = FOREST_ITEMS['EXIT'][0]
 
 
-def init_new_forest():
-    forest = spawn_trees()
-    place_and_close_gates(forest)
-    forest[2][2] = FOREST_ITEMS['PLAYER'][0]
-    return forest
-
-
 def escaped_from_forest(forest, game_over=False):
     gate1 = forest[(FOREST_HEIGTH) + 1][4]
     gate2 = forest[(FOREST_HEIGTH) + 1][5]
@@ -105,6 +108,14 @@ def escaped_from_forest(forest, game_over=False):
     if gate1 == player or gate2 == player:
         game_over = True
     return game_over
+
+
+def init_new_forest():
+    forest = spawn_trees()
+    place_and_close_gates(forest)
+    place_magic_sword(forest)
+    forest[2][2] = FOREST_ITEMS['PLAYER'][0]
+    return forest
 
 
 def main():
