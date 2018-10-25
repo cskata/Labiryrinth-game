@@ -116,8 +116,8 @@ def init_new_cellar():
 
 
 def main():
-    # introoutro.game_intro()
-    # introoutro.cellar_intro()
+    introoutro.game_intro()
+    introoutro.cellar_intro()
     labyrinth = init_new_cellar()
     sweets_to_collect = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     while not escaped_from_cellar(labyrinth):
@@ -125,7 +125,7 @@ def main():
         draw(labyrinth, collected_sweets, sweets_to_collect)
         labyrinth = common.move_player(labyrinth, CELLAR_ITEMS)
     draw(labyrinth, collected_sweets, sweets_to_collect)
-    # introoutro.cellar_outro()
+    introoutro.cellar_outro()
     os.system('python3 forest.py')
 
 
