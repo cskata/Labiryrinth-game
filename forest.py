@@ -36,7 +36,7 @@ def custom_tree():
 FOREST_ITEMS = {
     'CORRIDOR': [0, ' '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, custom_tree(), 'green', 8],
+    'SPAWNED_ITEM': [2, custom_tree(), 'green', 10],
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
     'PLAYER': [5, '\u265f', 'red'],
