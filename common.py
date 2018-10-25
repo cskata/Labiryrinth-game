@@ -79,5 +79,39 @@ def cellar_outro():
     print("\n")
 
 
-def what_the_witch_say_in_cellar(sweets_to_collect):
-    pass
+def find_player(labyrinth, biom):
+    coordinates = []
+    for x_coord, row in enumerate(labyrinth):
+        for y_coord, item in enumerate(row):
+            if item == biom['PLAYER'][0]:
+                coordinates.append(x_coord)
+                coordinates.append(y_coord)
+    return coordinates
+
+
+def move_player(labyrinth, biom):
+    new_move = getch()
+    x = find_player(labyrinth, biom)[0]
+    y = find_player(labyrinth, biom)[1]
+    labyrinth[x][y] = biom['CORRIDOR'][0]
+    move_coords = {
+        'w': [x - 1, y, 'ver'],
+        'a': [x, y - 1, 'hor'],
+        's': [x + 1, y, 'ver'],
+        'd': [x, y + 1, 'hor']}
+
+    # find move's index with dictionary
+    if new_move in move_coords.keys():
+        move_x = move_coords[new_move][0]
+        move_y = move_coords[new_move][1]
+        if labyrinth[move_x][move_y] == biom['SPAWNED_ITEM'][0]:
+            labyrinth[move_x][move_y] = biom['CORRIDOR'][0]
+        if labyrinth[move_x][move_y] == biom['CORRIDOR'][0]:
+            if move_coords[new_move][2] == 'hor':
+                y = move_y
+            elif move_coords[new_move][2] == 'ver':
+                x = move_x
+    if new_move == "x":
+        exit()
+    labyrinth[x][y] = biom['PLAYER'][0]
+    return labyrinth

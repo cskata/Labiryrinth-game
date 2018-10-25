@@ -75,50 +75,12 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
         print()
 
 
-def find_player(labyrinth):
-    coordinates = []
-    for x_coord, row in enumerate(labyrinth):
-        for y_coord, item in enumerate(row):
-            if item == CELLAR_ITEMS['PLAYER'][0]:
-                coordinates.append(x_coord)
-                coordinates.append(y_coord)
-    return coordinates
-
-
 def count_uncollected_sweets(labyrinth, coll_sweets=0):
     sweets_to_coll = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     for row in labyrinth:
         coll_sweets += row.count(2)
     uncoll_sweets = sweets_to_coll - coll_sweets
     return uncoll_sweets
-
-
-def move_player(labyrinth):
-    new_move = common.getch()
-    x = find_player(labyrinth)[0]
-    y = find_player(labyrinth)[1]
-    labyrinth[x][y] = CELLAR_ITEMS['CORRIDOR'][0]
-    move_coords = {
-        'w': [x - 1, y, 'ver'],
-        'a': [x, y - 1, 'hor'],
-        's': [x + 1, y, 'ver'],
-        'd': [x, y + 1, 'hor']}
-
-    # find move's index with dictionary
-    if new_move in move_coords.keys():
-        move_x = move_coords[new_move][0]
-        move_y = move_coords[new_move][1]
-        if labyrinth[move_x][move_y] == CELLAR_ITEMS['SPAWNED_ITEM'][0]:
-            labyrinth[move_x][move_y] = CELLAR_ITEMS['CORRIDOR'][0]
-        if labyrinth[move_x][move_y] == CELLAR_ITEMS['CORRIDOR'][0]:
-            if move_coords[new_move][2] == 'hor':
-                y = move_y
-            elif move_coords[new_move][2] == 'ver':
-                x = move_x
-    if new_move == "x":
-        exit()
-    labyrinth[x][y] = CELLAR_ITEMS['PLAYER'][0]
-    return labyrinth
 
 
 def escaped_from_cellar(labyrinth, game_over=False):
@@ -155,7 +117,7 @@ def main():
     while not escaped_from_cellar(labyrinth):
         collected_sweets = count_uncollected_sweets(labyrinth)
         draw(labyrinth, collected_sweets, sweets_to_collect)
-        labyrinth = move_player(labyrinth)
+        labyrinth = common.move_player(labyrinth, CELLAR_ITEMS)
     draw(labyrinth, collected_sweets, sweets_to_collect)
     # common.cellar_outro()
     # új szinthez ide kéne meghívni esetleg a következő szint mainjét?
