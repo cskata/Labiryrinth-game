@@ -6,7 +6,7 @@ import time
 import tty
 
 import lab_generator
-import main_title
+import introoutro
 
 
 def getch():
