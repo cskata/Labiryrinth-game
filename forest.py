@@ -13,14 +13,21 @@ FOREST_WIDTH = 20
 FOREST_HEIGTH = 20
 
 
+def custom_tree():
+    BOLD = "\033[1m"
+    END = "\033[0m"
+    tree = (f"{BOLD}{'@'}{END}")
+    return tree
+
+
 FOREST_ITEMS = {
     'CORRIDOR': [0, ' '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, '\U0001F333', 8],
+    'SPAWNED_ITEM': [2, custom_tree(), 'green', 8],
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
-    'PLAYER': [5, '\u25CF', 'yellow']
-}
+    'PLAYER': [5, '\u265f', 'red']
+    }
 
 
 def create_forest_area():
@@ -38,18 +45,16 @@ def create_forest_area():
 
 def spawn_trees(spawned_trees=0):
     # find the tree where a sword is hidden
-    trees_to_spawn = FOREST_ITEMS['SPAWNED_ITEM'][2]
+    trees_to_spawn = FOREST_ITEMS['SPAWNED_ITEM'][3]
     forest = create_forest_area()
     while spawned_trees != trees_to_spawn:
         x = random.randint(2, (FOREST_WIDTH - 1))
         y = random.randint(2, (FOREST_HEIGTH * 2))
-        if forest[x][y - 1] == FOREST_ITEMS['CORRIDOR'][0]:
-            if forest[x][y] == FOREST_ITEMS['CORRIDOR'][0]:
-                forest[x][y] = FOREST_ITEMS['SPAWNED_ITEM'][0]
-                forest[x].pop(y - 1)
-                spawned_trees += 1
-            else:
-                spawned_trees += 0
+        if forest[x][y] == FOREST_ITEMS['CORRIDOR'][0]:
+            forest[x][y] = FOREST_ITEMS['SPAWNED_ITEM'][0]
+            spawned_trees += 1
+        else:
+            spawned_trees += 0
     common.export_random_lab(forest, "forest")
     forest = common.import_lab_level("forest")
     return forest
@@ -62,7 +67,7 @@ def print_forest(forest):
             for k in FOREST_ITEMS.keys():
                 if FOREST_ITEMS[k][0] == forest[x][y]:
                     key = k
-            if key == 'ENTRY' or key == 'EXIT' or key == 'PLAYER':
+            if key != 'CORRIDOR' and key != 'WALL':
                 if forest[x][y] == FOREST_ITEMS[key][0]:
                     sys.stdout.write(colored(FOREST_ITEMS[key][1], FOREST_ITEMS[key][2]))
             elif forest[x][y] == FOREST_ITEMS[key][0]:
@@ -70,8 +75,13 @@ def print_forest(forest):
         print()
 
 
-def spawn_enemies():
-    pass
+def find_tree_coordinates(forest):
+    tree_coordinates = []
+    for x_coord, row in enumerate(forest):
+        for y_coord, item in enumerate(row):
+            if item == FOREST_ITEMS['SPAWNED_ITEM'][0]:
+                tree_coordinates.append([x_coord, y_coord])
+    return tree_coordinates
 
 
 def place_and_close_gates(forest):
@@ -99,6 +109,7 @@ def escaped_from_forest(forest, game_over=False):
 
 def main():
     forest = init_new_forest()
+    print(find_tree_coordinates(forest))
     while not escaped_from_forest(forest):
         print_forest(forest)
         forest = common.move_player(forest, FOREST_ITEMS)
