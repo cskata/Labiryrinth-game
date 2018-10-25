@@ -90,3 +90,17 @@ def forest_intro():
     start_game = False
     if common.getch():
         start_game = True
+
+
+def forest_outro():
+    time.sleep(1)
+    print_slow("\nGretel is now heading to the witch's hut.\n")
+    time.sleep(1)
+    print_slow("Suddenly she got very tired since she had to cut down so many trees.\n")
+    time.sleep(1)
+    print_slow("She lied down near the river to take a quick nap.\n")
+    time.sleep(1)
+    print_slow("Riiight next to the witch's hut. GG kid... \n")
+    time.sleep(3)
+    print_slow("\nTo Be Continued....\n")
+    time.sleep(5)
