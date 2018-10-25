@@ -20,20 +20,26 @@ def print_slow(str):
         time.sleep(0.06)
 
 
-def print_centered_main_title():
-    for title in titles:
-        print("{: ^100s}".format(title))
+def print_centered_main_title(title):
+    for line in title:
+        print("{: ^100s}".format(line))
     press_start = "Press any button to start the game."
-    print("\n" * 3)
+    print("\n" * 2)
     print("{: ^100s}".format(press_start))
     start_game = False
     if common.getch():
         start_game = True
 
 
+def print_centered_level_title(art):
+    for line in art:
+        print(line)
+    print("\n")
+
+
 def game_intro():
     os.system('clear')
-    print_centered_main_title()
+    print_centered_main_title(titles)
 
 
 def cellar_intro():
@@ -63,7 +69,11 @@ def cellar_outro():
     print_slow(" And she wants to avenge Hansel. You must help her!")
     time.sleep(1)
     print_slow("\n(And try not to kill her too... \U0001F620)\n")
-    time.sleep(3)
+    time.sleep(2)
+    print("\nWhen you are ready, press any button to begin.")
+    start_game = False
+    if common.getch():
+        start_game = True
 
 
 def forest_intro():
