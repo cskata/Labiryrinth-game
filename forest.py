@@ -8,6 +8,7 @@ import tty
 
 import lab_generator
 import common
+import introoutro
 
 FOREST_WIDTH = 20
 FOREST_HEIGTH = FOREST_WIDTH
@@ -27,7 +28,7 @@ FOREST_ITEMS = {
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
     'PLAYER': [5, '\u265f', 'red'],
-    'MAGIC_SWORD': [6, custom_tree(), 'green']
+    'MAGIC_SWORD': [6, custom_tree(), 'green', False]
     }
 
 
@@ -57,8 +58,9 @@ def spawn_trees(spawned_trees=0):
     return forest
 
 
-def print_forest(forest):
+def draw_forest(forest):
     os.system('clear')
+    is_sword_found(forest, FOREST_ITEMS)
     for x, row in enumerate(forest):
         for y, cell in enumerate(row):
             key = common.get_cells_key(x, y, forest, FOREST_ITEMS)
@@ -80,6 +82,7 @@ def find_tree_coordinates(forest):
 
 
 def place_magic_sword(forest):
+    # the magic sword disguises itself as a tree
     tree_coordinates = find_tree_coordinates(forest)
     random.shuffle(tree_coordinates)
     sword_coords = tree_coordinates[0]
@@ -90,24 +93,16 @@ def place_magic_sword(forest):
     forest[sx][sy] = FOREST_ITEMS['MAGIC_SWORD'][0]
 
 
-def look_for_magic_sword():
-    pass
-
-
 def place_and_close_gates(forest):
     forest[0][2] = FOREST_ITEMS['ENTRY'][0]
     forest[0][3] = FOREST_ITEMS['ENTRY'][0]
-    forest[(FOREST_HEIGTH) + 1][4] = FOREST_ITEMS['EXIT'][0]
-    forest[(FOREST_HEIGTH) + 1][5] = FOREST_ITEMS['EXIT'][0]
 
 
-def escaped_from_forest(forest, game_over=False):
-    gate1 = forest[(FOREST_HEIGTH) + 1][4]
-    gate2 = forest[(FOREST_HEIGTH) + 1][5]
-    player = FOREST_ITEMS['PLAYER'][0]
-    if gate1 == player or gate2 == player:
-        game_over = True
-    return game_over
+def is_sword_found(forest, biom_dic):
+    if not biom_dic['MAGIC_SWORD'][3]:
+        print("Gretel has not found the magic sword yet. Keep looking.\n")
+    else:
+        print("Gretel found the magic sword!! Now she can try to defeat the witch.\n")
 
 
 def init_new_forest():
@@ -119,10 +114,12 @@ def init_new_forest():
 
 
 def main():
+    introoutro.forest_intro()
     forest = init_new_forest()
-    while not escaped_from_forest(forest):
-        print_forest(forest)
+    while not FOREST_ITEMS['MAGIC_SWORD'][3]:
+        draw_forest(forest)
         forest = common.move_player(forest, FOREST_ITEMS)
+    draw_forest(forest)
 
 
 if __name__ == '__main__':
