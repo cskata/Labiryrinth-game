@@ -8,6 +8,7 @@ import tty
 
 import lab_generator
 import common
+import introoutro
 import forest
 
 LAB_WIDTH = lab_generator.WIDTH * 3
@@ -114,8 +115,8 @@ def init_new_cellar():
 
 
 def main():
-    # common.game_intro()
-    # common.cellar_intro()
+    # introoutro.game_intro()
+    # introoutro.cellar_intro()
     labyrinth = init_new_cellar()
     sweets_to_collect = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     while not escaped_from_cellar(labyrinth):
@@ -123,7 +124,7 @@ def main():
         draw(labyrinth, collected_sweets, sweets_to_collect)
         labyrinth = common.move_player(labyrinth, CELLAR_ITEMS)
     draw(labyrinth, collected_sweets, sweets_to_collect)
-    # common.cellar_outro()
+    # introoutro.cellar_outro()
     os.system('python3 forest.py')
 
 
