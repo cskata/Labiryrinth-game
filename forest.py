@@ -133,6 +133,8 @@ def main():
         draw_forest(forest)
         forest = common.move_player(forest, FOREST_ITEMS)
     draw_forest(forest)
+    introoutro.forest_outro()
+    os.system('python3 witch.py')
 
 
 if __name__ == '__main__':
