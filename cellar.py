@@ -27,7 +27,7 @@ def collectable_sweets():
 CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, collectable_sweets(), 1],
+    'SPAWNED_ITEM': [2, collectable_sweets(), 4],
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
     'PLAYER': [5, '\u265f ', 'blue']
@@ -74,9 +74,7 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
         for y, cell in enumerate(row):
             # finding the the current element's (cell) key in CELLAR_ITEMS dict.
             # the key can be used as a variable so there is no need for many ifs
-            for k in CELLAR_ITEMS.keys():
-                if CELLAR_ITEMS[k][0] == labyrinth[x][y]:
-                    key = k
+            key = common.get_cells_key(x, y, labyrinth, CELLAR_ITEMS)
             if CELLAR_ITEMS[key][0] > 2:
                 if labyrinth[x][y] == CELLAR_ITEMS[key][0]:
                     sys.stdout.write(colored(CELLAR_ITEMS[key][1], CELLAR_ITEMS[key][2]))

@@ -79,6 +79,13 @@ def cellar_outro():
     print("\n")
 
 
+def get_cells_key(x, y, biom, biom_dic):
+    for k in biom_dic.keys():
+        if biom_dic[k][0] == biom[x][y]:
+            key = k
+    return key
+
+
 def find_player(labyrinth, biom):
     coordinates = []
     for x_coord, row in enumerate(labyrinth):

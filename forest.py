@@ -10,7 +10,7 @@ import lab_generator
 import common
 
 FOREST_WIDTH = 20
-FOREST_HEIGTH = 20
+FOREST_HEIGTH = FOREST_WIDTH
 
 
 def custom_tree():
@@ -64,9 +64,7 @@ def print_forest(forest):
     os.system('clear')
     for x, row in enumerate(forest):
         for y, cell in enumerate(row):
-            for k in FOREST_ITEMS.keys():
-                if FOREST_ITEMS[k][0] == forest[x][y]:
-                    key = k
+            key = common.get_cells_key(x, y, forest, FOREST_ITEMS)
             if key != 'CORRIDOR' and key != 'WALL':
                 if forest[x][y] == FOREST_ITEMS[key][0]:
                     sys.stdout.write(colored(FOREST_ITEMS[key][1], FOREST_ITEMS[key][2]))
@@ -82,6 +80,12 @@ def find_tree_coordinates(forest):
             if item == FOREST_ITEMS['SPAWNED_ITEM'][0]:
                 tree_coordinates.append([x_coord, y_coord])
     return tree_coordinates
+
+
+def place_magic_sword(forest):
+    tree_coordinates = find_tree_coordinates(forest)
+    shuffle(tree_coordinates)
+    pass
 
 
 def place_and_close_gates(forest):
@@ -109,7 +113,6 @@ def escaped_from_forest(forest, game_over=False):
 
 def main():
     forest = init_new_forest()
-    print(find_tree_coordinates(forest))
     while not escaped_from_forest(forest):
         print_forest(forest)
         forest = common.move_player(forest, FOREST_ITEMS)
