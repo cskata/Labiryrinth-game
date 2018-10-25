@@ -15,8 +15,11 @@ FOREST_HEIGTH = 20
 
 FOREST_ITEMS = {
     'CORRIDOR': [0, ' '],
-    'EDGE': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, '\U0001F333', 8]
+    'WALL': [1, '\u2588\u2588'],
+    'SPAWNED_ITEM': [2, '\U0001F333', 8],
+    'EXIT': [3, '\u2584\u2584', 'red'],
+    'ENTRY': [4, '\u2580\u2580', 'red'],
+    'PLAYER': [5, '\u25CF', 'yellow']
 }
 
 
@@ -31,19 +34,6 @@ def create_forest_area():
     common.export_random_lab(forest, "forest")
     forest = common.import_lab_level("forest")
     return forest
-
-
-def print_forest(forest):
-    os.system('clear')
-    forest = common.import_lab_level("forest")
-    for x, row in enumerate(forest):
-        for y, cell in enumerate(row):
-            for k in FOREST_ITEMS.keys():
-                if FOREST_ITEMS[k][0] == forest[x][y]:
-                    key = k
-            if forest[x][y] == FOREST_ITEMS[key][0]:
-                sys.stdout.write(FOREST_ITEMS[key][1])
-        print()
 
 
 def spawn_trees(spawned_trees=0):
@@ -65,13 +55,53 @@ def spawn_trees(spawned_trees=0):
     return forest
 
 
+def print_forest(forest):
+    os.system('clear')
+    for x, row in enumerate(forest):
+        for y, cell in enumerate(row):
+            for k in FOREST_ITEMS.keys():
+                if FOREST_ITEMS[k][0] == forest[x][y]:
+                    key = k
+            if key == 'ENTRY' or key == 'EXIT' or key == 'PLAYER':
+                if forest[x][y] == FOREST_ITEMS[key][0]:
+                    sys.stdout.write(colored(FOREST_ITEMS[key][1], FOREST_ITEMS[key][2]))
+            elif forest[x][y] == FOREST_ITEMS[key][0]:
+                sys.stdout.write(FOREST_ITEMS[key][1])
+        print()
+
+
 def spawn_enemies():
     pass
 
 
-def main():
+def place_and_close_gates(forest):
+    forest[0][2] = FOREST_ITEMS['ENTRY'][0]
+    forest[0][3] = FOREST_ITEMS['ENTRY'][0]
+    forest[(FOREST_HEIGTH) + 1][4] = FOREST_ITEMS['EXIT'][0]
+    forest[(FOREST_HEIGTH) + 1][5] = FOREST_ITEMS['EXIT'][0]
+
+
+def init_new_forest():
     forest = spawn_trees()
-    print_forest(forest)
+    place_and_close_gates(forest)
+    forest[2][2] = FOREST_ITEMS['PLAYER'][0]
+    return forest
+
+
+def escaped_from_forest(forest, game_over=False):
+    gate1 = forest[(FOREST_HEIGTH) + 1][4]
+    gate2 = forest[(FOREST_HEIGTH) + 1][5]
+    player = FOREST_ITEMS['PLAYER'][0]
+    if gate1 == player or gate2 == player:
+        game_over = True
+    return game_over
+
+
+def main():
+    forest = init_new_forest()
+    while not escaped_from_forest(forest):
+        print_forest(forest)
+        forest = common.move_player(forest, FOREST_ITEMS)
 
 
 if __name__ == '__main__':
