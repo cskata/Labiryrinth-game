@@ -9,6 +9,18 @@ import tty
 import lab_generator
 import common
 import introoutro
+import witch
+
+
+forest_l1 = r""" _______ _            ______                  _"""
+forest_l2 = r"""|__   __| |          |  ____|                | |"""
+forest_l3 = r"""   | |  | |__   ___  | |__ ___  _ __ ___  ___| |"""
+forest_l4 = r"""   | |  | '_ \ / _ \ |  __/ _ \| '__/ _ \/ __| __|"""
+forest_l5 = r"""   | |  | | | |  __/ | | | (_) | | |  __/\__ \ |"""
+forest_l6 = r"""   |_|  |_| |_|\___| |_|  \___/|_|  \___||___/\__|"""
+
+forest_art = [forest_l1, forest_l2, forest_l3, forest_l4, forest_l5, forest_l6]
+
 
 FOREST_WIDTH = 20
 FOREST_HEIGTH = FOREST_WIDTH
@@ -60,6 +72,7 @@ def spawn_trees(spawned_trees=0):
 
 def draw_forest(forest):
     os.system('clear')
+    introoutro.print_centered_level_title(forest_art)
     is_sword_found(forest, FOREST_ITEMS)
     for x, row in enumerate(forest):
         for y, cell in enumerate(row):
