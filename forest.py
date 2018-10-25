@@ -50,11 +50,7 @@ def spawn_trees(spawned_trees=0):
     while spawned_trees != trees_to_spawn:
         x = random.randint(2, (FOREST_WIDTH - 1))
         y = random.randint(2, (FOREST_HEIGTH * 2))
-        if forest[x][y] == FOREST_ITEMS['CORRIDOR'][0]:
-            forest[x][y] = FOREST_ITEMS['SPAWNED_ITEM'][0]
-            spawned_trees += 1
-        else:
-            spawned_trees += 0
+        spawned_sweets += common.add_items_to_biom(x, y, forest, FOREST_ITEMS)
     common.export_random_lab(forest, "forest")
     forest = common.import_lab_level("forest")
     return forest

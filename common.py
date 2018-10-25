@@ -79,6 +79,14 @@ def cellar_outro():
     print("\n")
 
 
+def add_items_to_biom(x, y, biom, biom_dict):
+    if biom[x][y] == biom_dict['CORRIDOR'][0]:
+        biom[x][y] = biom_dict['SPAWNED_ITEM'][0]
+        return 1
+    else:
+        return 0
+
+
 def get_cells_key(x, y, biom, biom_dic):
     for k in biom_dic.keys():
         if biom_dic[k][0] == biom[x][y]:

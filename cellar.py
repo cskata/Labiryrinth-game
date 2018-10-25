@@ -53,11 +53,7 @@ def create_cellar_with_sweets(spawned_sweets=0):
     while spawned_sweets != sweets_to_spawn:
         x = random.randint(1, LAB_WIDTH)
         y = random.randint(1, LAB_HEIGHT)
-        if labyrinth[x][y] == CELLAR_ITEMS['CORRIDOR'][0]:
-            labyrinth[x][y] = CELLAR_ITEMS['SPAWNED_ITEM'][0]
-            spawned_sweets += 1
-        else:
-            spawned_sweets += 0
+        spawned_sweets += common.add_items_to_biom(x, y, labyrinth, CELLAR_ITEMS)
     # exports the generated cellar with the random sweets to a new file
     # the labyrinth's matrix it wont be overwritten every time
     common.export_random_lab(labyrinth, "cellar")
