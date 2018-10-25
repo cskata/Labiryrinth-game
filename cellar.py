@@ -11,6 +11,18 @@ import common
 import introoutro
 import forest
 
+
+cellar_l1 = r""" _______ _             _____     _ _ """
+cellar_l2 = r"""|__   __| |           / ____|   | | |"""
+cellar_l3 = r"""   | |  | |__   ___  | |     ___| | | __ _ _ __"""
+cellar_l4 = r"""   | |  | '_ \ / _ \ | |    / _ \ | |/ _` | '__|"""
+cellar_l5 = r"""   | |  | | | |  __/ | |___|  __/ | | (_| | |"""
+cellar_l6 = r"""   |_|  |_| |_|\___|  \_____\___|_|_|\__,_|_|"""
+
+
+cellar_art = [cellar_l1, cellar_l2, cellar_l3, cellar_l4, cellar_l5, cellar_l6]
+
+
 # LAB_WIDTH must be the WIDTH in lab_generator * 3
 LAB_WIDTH = 24
 LAB_HEIGHT = LAB_WIDTH
@@ -67,6 +79,7 @@ def create_cellar_with_sweets(spawned_sweets=0):
 
 def draw(labyrinth, collected_sweets, sweets_to_collect):
     os.system('clear')
+    introoutro.print_centered_level_title(cellar_art)
     print_how_many_sweets_left(labyrinth, collected_sweets, sweets_to_collect)
     for x, row in enumerate(labyrinth):
         for y, cell in enumerate(row):
