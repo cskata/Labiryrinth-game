@@ -8,6 +8,7 @@ import tty
 
 import lab_generator
 import common
+import forest
 
 LAB_WIDTH = lab_generator.WIDTH * 3
 LAB_HEIGHT = lab_generator.HEIGHT * 3
@@ -120,7 +121,7 @@ def main():
         labyrinth = common.move_player(labyrinth, CELLAR_ITEMS)
     draw(labyrinth, collected_sweets, sweets_to_collect)
     # common.cellar_outro()
-    # új szinthez ide kéne meghívni esetleg a következő szint mainjét?
+    os.system('python3 forest.py')
 
 
 if __name__ == '__main__':
