@@ -41,8 +41,8 @@ def create_cellar_with_sweets(spawned_sweets=0):
     labyrinth = common.import_lab_level("new_lab")
     sweets_to_spawn = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     while spawned_sweets != sweets_to_spawn:
-        x = random.randint(0, LAB_WIDTH)
-        y = random.randint(0, LAB_HEIGHT)
+        x = random.randint(1, LAB_WIDTH)
+        y = random.randint(1, LAB_HEIGHT)
         if labyrinth[x][y] == CELLAR_ITEMS['CORRIDOR'][0]:
             labyrinth[x][y] = CELLAR_ITEMS['SPAWNED_ITEM'][0]
             spawned_sweets += 1
