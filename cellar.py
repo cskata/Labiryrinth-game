@@ -14,14 +14,23 @@ LAB_WIDTH = lab_generator.WIDTH * 3
 LAB_HEIGHT = lab_generator.HEIGHT * 3
 
 
+def collectable_sweets():
+    BOLD = "\033[1m"
+    END = "\033[0m"
+    lolly = colored((f"{BOLD}{'@'}{END}"), "blue")
+    pop = colored((f"{BOLD}{'-'}{END}"), "yellow")
+    lollypop = lolly + pop
+    return lollypop
+
+
 # item: numbers in grid, char to print, other data if needed
 CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, '\U0001F36C', 1],
+    'SPAWNED_ITEM': [2, collectable_sweets(), 1],
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
-    'PLAYER': [5, '\U0001F46B']
+    'PLAYER': [5, '\u265f ', 'blue']
     }
 
 
@@ -68,7 +77,7 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
             for k in CELLAR_ITEMS.keys():
                 if CELLAR_ITEMS[k][0] == labyrinth[x][y]:
                     key = k
-            if key == 'ENTRY' or key == 'EXIT':
+            if CELLAR_ITEMS[key][0] > 2:
                 if labyrinth[x][y] == CELLAR_ITEMS[key][0]:
                     sys.stdout.write(colored(CELLAR_ITEMS[key][1], CELLAR_ITEMS[key][2]))
             elif labyrinth[x][y] == CELLAR_ITEMS[key][0]:
