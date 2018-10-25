@@ -33,22 +33,22 @@ def print_centered_main_title():
 
 def game_intro():
     os.system('clear')
-    main_title.print_centered_main_title()
+    print_centered_main_title()
 
 
 def cellar_intro():
     os.system('clear')
-    time.sleep(0.5)
+    time.sleep(0.6)
     print_slow("\nHansel and Gretel got lost in the woods and the evil witch captured them.")
-    print_slow("\nThey are locked in the witch's cellar. Help them to escape.\n")
-    time.sleep(0.7)
-    print("They have to eat 4 sweets to open the gate and escape.")
-    time.sleep(1.2)
-    print("You can move by pressing WASD.")
-    time.sleep(1.2)
+    print_slow("\nThey are locked in the witch's cellar. Help them to escape.")
+    time.sleep(0.6)
+    print_slow("\nThey have to eat 4 sweets to open the gate below.")
+    time.sleep(0.6)
+    print_slow("\nYou can move by pressing WASD.\n")
+    time.sleep(0.6)
     print("When you are ready, press any button to begin.")
     start_game = False
-    if getch():
+    if common.getch():
         start_game = True
 
 
@@ -58,13 +58,11 @@ def cellar_outro():
     time.sleep(1)
     print_slow("Congratulations. You killed him!")
     time.sleep(2)
-    print("\n")
-    print_slow("But Gretel survived...")
+    print_slow("\nBut Gretel survived...")
     print_slow(" And she wants to avenge Hansel. You must help her!")
     time.sleep(1)
-    print("\n")
-    print_slow("(And try not to kill her too... \U0001F620)")
-    print("\n")
+    print_slow("\n(And try not to kill her too... \U0001F620)\n")
+    time.sleep(3)
 
 
 def forest_intro():
