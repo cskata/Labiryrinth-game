@@ -15,14 +15,12 @@ FOREST_HEIGTH = 20
 
 FOREST_ITEMS = {
     'CORRIDOR': [0, ' '],
-    'EDGE': [1, '\U0001F332'],
-    'SPAWNED_ITEM': [2, '@', 4]
+    'EDGE': [1, '\u2588\u2588'],
+    'SPAWNED_ITEM': [2, '\U0001F333', 8]
 }
 
 
 def create_forest_area():
-    # 1 = \U0001F332
-    # 0 = "   "
     forest = []
     edge = ("1" * (FOREST_WIDTH) + "11")
     gameplay_area = ("1" + ("00" * (FOREST_WIDTH)) + "1")
@@ -49,18 +47,19 @@ def print_forest(forest):
 
 
 def spawn_trees(spawned_trees=0):
-    # tree code: \U0001F333
     # find the tree where a sword is hidden
     trees_to_spawn = FOREST_ITEMS['SPAWNED_ITEM'][2]
     forest = create_forest_area()
     while spawned_trees != trees_to_spawn:
-        x = random.randint(0, (FOREST_WIDTH))
-        y = random.randint(0, (FOREST_HEIGTH))
-        if forest[x][y] == FOREST_ITEMS['CORRIDOR'][0]:
-            forest[x][y] = FOREST_ITEMS['SPAWNED_ITEM'][0]
-            spawned_trees += 1
-        else:
-            spawned_trees += 0
+        x = random.randint(2, (FOREST_WIDTH - 1))
+        y = random.randint(2, (FOREST_HEIGTH * 2))
+        if forest[x][y - 1] == FOREST_ITEMS['CORRIDOR'][0]:
+            if forest[x][y] == FOREST_ITEMS['CORRIDOR'][0]:
+                forest[x][y] = FOREST_ITEMS['SPAWNED_ITEM'][0]
+                forest[x].pop(y - 1)
+                spawned_trees += 1
+            else:
+                spawned_trees += 0
     common.export_random_lab(forest, "forest")
     forest = common.import_lab_level("forest")
     return forest
