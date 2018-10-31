@@ -6,10 +6,9 @@ import termios
 import time
 import tty
 
-import lab_generator
-import common
 import introoutro
-import forest
+import lab_generator    # innen kéne csak a make_lab-ot meghívni, mert ez  meghívja a commont és emiatt crashel össze
+from common import import_lab_level, export_random_lab, add_items_to_biom, get_cells_key, move_player
 
 
 cellar_l1 = r""" _______ _             _____     _ _ """
@@ -24,7 +23,7 @@ cellar_art = [cellar_l1, cellar_l2, cellar_l3, cellar_l4, cellar_l5, cellar_l6]
 
 
 # LAB_WIDTH must be the WIDTH in lab_generator * 3
-LAB_WIDTH = 24
+LAB_WIDTH = lab_generator.WIDTH * 3
 LAB_HEIGHT = LAB_WIDTH
 
 
@@ -41,7 +40,7 @@ def collectable_sweets():
 CELLAR_ITEMS = {
     'CORRIDOR': [0, '  '],
     'WALL': [1, '\u2588\u2588'],
-    'SPAWNED_ITEM': [2, collectable_sweets(), 4],
+    'SPAWNED_ITEM': [2, collectable_sweets(), 1],
     'EXIT': [3, '\u2584\u2584', 'red'],
     'ENTRY': [4, '\u2580\u2580', 'red'],
     'PLAYER': [5, '\u265f ', 'blue']
@@ -62,18 +61,18 @@ def open_gates(labyrinth):
 
 def create_cellar_with_sweets(spawned_sweets=0):
     lab_generator.main()
-    labyrinth = common.import_lab_level("new_lab")
+    labyrinth = import_lab_level("new_lab")
     sweets_to_spawn = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     while spawned_sweets != sweets_to_spawn:
         x = random.randint(1, LAB_WIDTH)
         y = random.randint(1, LAB_HEIGHT)
-        spawned_sweets += common.add_items_to_biom(x, y, labyrinth, CELLAR_ITEMS)
+        spawned_sweets += add_items_to_biom(x, y, labyrinth, CELLAR_ITEMS)
     # exports the generated cellar with the random sweets to a new file
     # the labyrinth's matrix it wont be overwritten every time
-    common.export_random_lab(labyrinth, "cellar")
+    export_random_lab(labyrinth, "cellar")
     # then imports it back and returns the labyrinth
     # since the function is called only once, the function can have a return value
-    labyrinth = common.import_lab_level("cellar")
+    labyrinth = import_lab_level("cellar")
     return labyrinth
 
 
@@ -85,7 +84,7 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
         for y, cell in enumerate(row):
             # finding the the current element's (cell) key in CELLAR_ITEMS dict.
             # the key can be used as a variable so there is no need for many ifs
-            key = common.get_cells_key(x, y, labyrinth, CELLAR_ITEMS)
+            key = get_cells_key(x, y, labyrinth, CELLAR_ITEMS)
             if CELLAR_ITEMS[key][0] > 2:
                 if labyrinth[x][y] == CELLAR_ITEMS[key][0]:
                     sys.stdout.write(colored(CELLAR_ITEMS[key][1], CELLAR_ITEMS[key][2]))
@@ -129,16 +128,16 @@ def init_new_cellar():
 
 
 def main():
-    introoutro.game_intro()
-    introoutro.cellar_intro()
+    # introoutro.game_intro()
+    # introoutro.cellar_intro()
     labyrinth = init_new_cellar()
     sweets_to_collect = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     while not escaped_from_cellar(labyrinth):
         collected_sweets = count_uncollected_sweets(labyrinth)
         draw(labyrinth, collected_sweets, sweets_to_collect)
-        labyrinth = common.move_player(labyrinth, CELLAR_ITEMS)
+        labyrinth = move_player(labyrinth, CELLAR_ITEMS)
     draw(labyrinth, collected_sweets, sweets_to_collect)
-    introoutro.cellar_outro()
+    # introoutro.cellar_outro()
     os.system('python3 forest.py')
 
 

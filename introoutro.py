@@ -2,6 +2,8 @@ import os
 import sys
 import time
 import common
+import cellar
+
 
 title_l1 = r"""  _    _                      _                   _    _____          _       _ """
 title_l2 = r""" | |  | |                    | |                 | |  / ____|        | |     | |"""
@@ -45,13 +47,14 @@ def game_intro():
 def cellar_intro():
     os.system('clear')
     time.sleep(1)
-    print_slow("\nHansel and Gretel got lost in the woods and the evil witch captured them.")
-    print_slow("\nThey are locked in the witch's cellar. Help them to escape.")
+    # print_slow("\nHansel and Gretel got lost in the woods and the evil witch captured them.")
+    # print_slow("\nThey are locked in the witch's cellar. Help them to escape.")
+    # time.sleep(1)
+    sweets_to_eat = cellar.CELLAR_ITEMS['SPAWNED_ITEM'][2]
+    print_slow(f"\nThey have to eat {sweets_to_eat} sweets to open the gate below.")
     time.sleep(1)
-    print_slow("\nThey have to eat 4 sweets to open the gate below.")
-    time.sleep(1)
-    print_slow("\nYou can move by pressing WASD.")
-    time.sleep(2)
+    # print_slow("\nYou can move by pressing WASD.")
+    # time.sleep(2)
     print('\n')
     print("When you are ready, press any button to begin.")
     start_game = False

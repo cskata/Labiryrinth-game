@@ -6,7 +6,6 @@ import termios
 import time
 import tty
 
-import lab_generator
 import common
 import introoutro
 import witch
@@ -127,13 +126,13 @@ def init_new_forest():
 
 
 def main():
-    introoutro.forest_intro()
+    # introoutro.forest_intro()
     forest = init_new_forest()
     while not FOREST_ITEMS['MAGIC_SWORD'][3]:
         draw_forest(forest)
         forest = common.move_player(forest, FOREST_ITEMS)
     draw_forest(forest)
-    introoutro.forest_outro()
+    # introoutro.forest_outro()
     os.system('python3 witch.py')
 
 
