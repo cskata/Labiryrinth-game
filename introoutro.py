@@ -1,8 +1,8 @@
 import os
 import sys
 import time
-import common
-import cellar
+from common import getch
+from cellar import CELLAR_ITEMS
 
 
 title_l1 = r"""  _    _                      _                   _    _____          _       _ """
@@ -29,7 +29,7 @@ def print_centered_main_title(title):
     print("\n" * 2)
     print("{: ^100s}".format(press_start))
     start_game = False
-    if common.getch():
+    if getch():
         start_game = True
 
 
@@ -50,7 +50,7 @@ def cellar_intro():
     # print_slow("\nHansel and Gretel got lost in the woods and the evil witch captured them.")
     # print_slow("\nThey are locked in the witch's cellar. Help them to escape.")
     # time.sleep(1)
-    sweets_to_eat = cellar.CELLAR_ITEMS['SPAWNED_ITEM'][2]
+    sweets_to_eat = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     print_slow(f"\nThey have to eat {sweets_to_eat} sweets to open the gate below.")
     time.sleep(1)
     # print_slow("\nYou can move by pressing WASD.")
@@ -58,7 +58,7 @@ def cellar_intro():
     print('\n')
     print("When you are ready, press any button to begin.")
     start_game = False
-    if common.getch():
+    if getch():
         start_game = True
 
 
@@ -75,7 +75,7 @@ def cellar_outro():
     time.sleep(2)
     print("\nWhen you are ready, press any button to begin.")
     start_game = False
-    if common.getch():
+    if getch():
         start_game = True
 
 
@@ -91,7 +91,7 @@ def forest_intro():
     time.sleep(2)
     print("When you are ready, press any button to begin.")
     start_game = False
-    if common.getch():
+    if getch():
         start_game = True
 
 
