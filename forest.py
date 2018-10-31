@@ -8,7 +8,6 @@ import tty
 
 import common
 import introoutro
-import witch
 
 
 forest_l1 = r""" _______ _            ______                  _"""
