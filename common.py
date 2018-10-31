@@ -5,8 +5,6 @@ import termios
 import time
 import tty
 
-import lab_generator
-
 
 def getch():
     fd = sys.stdin.fileno()
