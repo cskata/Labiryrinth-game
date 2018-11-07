@@ -59,10 +59,11 @@ def open_gates(labyrinth):
     labyrinth[LAB_HEIGHT][LAB_WIDTH - 1] = CELLAR_ITEMS['CORRIDOR'][0]
 
 
-def create_cellar_with_sweets(spawned_sweets=0):
+def create_cellar_with_sweets():
     make_new_lab()
     labyrinth = common.import_lab_level("new_lab")
     sweets_to_spawn = CELLAR_ITEMS['SPAWNED_ITEM'][2]
+    spawned_sweets = 0
     while spawned_sweets != sweets_to_spawn:
         x = random.randint(1, LAB_WIDTH)
         y = random.randint(1, LAB_HEIGHT)
@@ -80,8 +81,9 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
     os.system('clear')
     introoutro.print_centered_level_title(cellar_art)
     print_how_many_sweets_left(labyrinth, collected_sweets, sweets_to_collect)
-    for x, row in enumerate(labyrinth):
-        for y, cell in enumerate(row):
+    # it's better to do this with in range instead of enumerate since only the indeces are needed
+    for x in range(len(labyrinth)):
+        for y in range(len(labyrinth[x])):
             # finding the the current element's (cell) key in CELLAR_ITEMS dict.
             # the key can be used as a variable so there is no need for many ifs
             key = common.get_cells_key(x, y, labyrinth, CELLAR_ITEMS)
@@ -93,7 +95,8 @@ def draw(labyrinth, collected_sweets, sweets_to_collect):
         print()
 
 
-def count_uncollected_sweets(labyrinth, coll_sweets=0):
+def count_uncollected_sweets(labyrinth):
+    coll_sweets = 0
     sweets_to_coll = CELLAR_ITEMS['SPAWNED_ITEM'][2]
     for row in labyrinth:
         coll_sweets += row.count(2)
@@ -101,7 +104,8 @@ def count_uncollected_sweets(labyrinth, coll_sweets=0):
     return uncoll_sweets
 
 
-def escaped_from_cellar(labyrinth, level_completed=False):
+def escaped_from_cellar(labyrinth):
+    level_completed = False
     gate1 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 2]
     gate2 = labyrinth[LAB_HEIGHT][LAB_WIDTH - 1]
     player = CELLAR_ITEMS['PLAYER'][0]
