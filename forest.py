@@ -72,8 +72,8 @@ def draw_forest(forest):
     os.system('clear')
     introoutro.print_centered_level_title(forest_art)
     is_sword_found(forest, FOREST_ITEMS)
-    for x, row in enumerate(forest):
-        for y, cell in enumerate(row):
+    for x in range(len(forest)):
+        for y in range(len(forest[x])):
             key = common.get_cells_key(x, y, forest, FOREST_ITEMS)
             if key != 'CORRIDOR' and key != 'WALL':
                 if forest[x][y] == FOREST_ITEMS[key][0]:
